@@ -1,0 +1,9 @@
+%p#notice= notice
+
+%p
+  %b Name:
+  = @heroku_app.name
+
+= link_to 'Edit', edit_heroku_app_path(@heroku_app)
+\|
+= link_to 'Back', heroku_apps_path
