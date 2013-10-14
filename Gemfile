@@ -13,6 +13,7 @@ gem 'bootstrap-sass'
 gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder', '~> 1.2'
+gem 'haml-rails'
 gem 'foreman'
 
 group :doc do
