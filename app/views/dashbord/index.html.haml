@@ -1,6 +1,16 @@
-%h1 Dashbord
-
 - @apps.each do |app|
-  = app.name
-  %br/
-  %hr/
+  %h2= app.name
+  %table.table.table-striped
+    %tr
+      %th dynos
+      %td= app.attributes[:dynos]
+    %tr
+      %th workers
+      %td= app.attributes[:dynos]
+    %tr
+      %th domain
+      %td= app.attributes[:web_url]
+    - app.addons.each do |addon|
+      %tr
+        %th= "Addon: #{addon[:description]}"
+        %td= "Plan: #{addon[:plan_description]},  Price(cents): #{addon[:price][:cents]}"
