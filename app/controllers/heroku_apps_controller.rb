@@ -47,6 +47,6 @@ class HerokuAppsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def heroku_app_params
-    params.require(:heroku_app).permit(:name)
+    params.require(:heroku_app).permit(:name, :tag_list)
   end
 end

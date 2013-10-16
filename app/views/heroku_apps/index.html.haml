@@ -1,16 +1,10 @@
 %h1 Heroku Apps
 
-%table
-  %tr
-    %th Name
-    %th
-    %th
-    %th
-
+%table.table.table-striped
   - @heroku_apps.each do |heroku_app|
     %tr
-      %td= heroku_app.name
-      %td= link_to 'Show', heroku_app
+      %td= link_to heroku_app.name, heroku_app
+      %td= heroku_app.tag_list
       %td= link_to 'Edit', edit_heroku_app_path(heroku_app)
       %td= link_to 'Destroy', heroku_app, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
