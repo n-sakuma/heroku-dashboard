@@ -7,11 +7,11 @@ module Api
     end
 
     def attributes
-      @attribute ||= parse_body(client.get_app(@name).body)
+      @attribute ||= parse_body(client.get_app(@name).body) rescue {}
     end
 
     def addons
-      @addons ||= client.get_addons(@name).body.map{|a| parse_body(a)}
+      @addons ||= client.get_addons(@name).body.map{|a| parse_body(a)} rescue []
     end
   end
 end
