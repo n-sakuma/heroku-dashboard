@@ -1,16 +1,18 @@
-- @apps.each do |app|
-  %h2= app.name
-  %table.table.table-striped
-    %tr
-      %th dynos
-      %td= app.attributes[:dynos]
-    %tr
-      %th workers
-      %td= app.attributes[:dynos]
-    %tr
-      %th domain
-      %td= app.attributes[:web_url]
-    - app.addons.each do |addon|
+- @api_infos.each_pair do |group, apps|
+  %h2= group
+  - apps.each do |app|
+    %h3= app.name
+    %table.table.table-striped
       %tr
-        %th= "Addon: #{addon[:description]}"
-        %td= "Plan: #{addon[:plan_description]},  Price(cents): #{addon[:price][:cents]}"
+        %th dynos
+        %td= app.attributes[:dynos]
+      %tr
+        %th workers
+        %td= app.attributes[:dynos]
+      %tr
+        %th domain
+        %td= app.attributes[:web_url]
+      - app.addons.each do |addon|
+        %tr
+          %th= "Addon: #{addon[:description]}"
+          %td= "Plan: #{addon[:plan_description]},  Price(cents): #{addon[:price][:cents]}"
