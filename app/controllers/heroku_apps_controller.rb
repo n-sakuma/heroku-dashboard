@@ -35,7 +35,7 @@ class HerokuAppsController < ApplicationController
 
   def update_api
     attr = Api::App.new(@heroku_app.name).attributes
-    if @heroku_app.update_from_api(attr)
+    if @heroku_app.update_attributes(attr)
       msg = 'Heroku app was successfully updated.'
     else
       msg = 'failed'
