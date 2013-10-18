@@ -1,12 +1,17 @@
 %p#notice= notice
 
-%p
-  %b Name:
-  = @heroku_app.name
-%p
-  %b Tag:
-  = @heroku_app.tag_list
+%dl.dl-horizontal
+  %dt Name
+  %dd= @heroku_app.name
+  %dt Tag
+  %dd= @heroku_app.tag_list
+  %dt dynos
+  %dd= @heroku_app.dynos
+  %dt workers
+  %dd= @heroku_app.workers
+  %dt Web URL
+  %dd= @heroku_app.web_url
+  %dt release date
+  %dd= @heroku_app.released_at
 
-= link_to 'Edit', edit_heroku_app_path(@heroku_app)
-\|
-= link_to 'Back', heroku_apps_path
+.btn= link_to 'Edit', edit_heroku_app_path(@heroku_app)
