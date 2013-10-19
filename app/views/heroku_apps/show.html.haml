@@ -1,8 +1,8 @@
+%h2
+  = @heroku_app.name
+  = link_to content_tag(:i, '', class: 'icon-edit'), edit_heroku_app_path(@heroku_app)
+.btn.btn-info.pull-right= link_to 'Get API Info', update_api_heroku_app_path(@heroku_app), method: :put
 %dl.dl-horizontal
-  %dt Name
-  %dd
-    = @heroku_app.name
-    = link_to content_tag(:i, '', class: 'icon-edit'), edit_heroku_app_path(@heroku_app)
   %dt Tag
   %dd
     = @heroku_app.tag_list
@@ -15,6 +15,22 @@
   %dd= @heroku_app.web_url
   %dt release date
   %dd= @heroku_app.released_at
-  %br/
-  %dt
-  %dd.btn.btn-info= link_to 'Get API Info', update_api_heroku_app_path(@heroku_app), method: :put
+
+- if @heroku_app.addons.present?
+  %h3
+    Addons
+    %small= number_to_currency(@heroku_app.addon_cost / 100)
+  - @heroku_app.addons.each do |addon|
+    .well
+      %strong= addon.description
+      %dl.dl-horizontal
+        %dt Plan
+        %dd= addon.plan_description
+        %dt Price
+        %dd= addon.price_cent
+        %dt Group
+        %dd= addon.group_description
+        %dt sso_url
+        %dd= link_to(addon.sso_url, addon.sso_url) if addon.sso_url.present?
+-else
+  No Addons.

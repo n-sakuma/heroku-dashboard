@@ -11,7 +11,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131017164210) do
+ActiveRecord::Schema.define(version: 20131018101844) do
+
+  create_table "addons", force: true do |t|
+    t.integer  "heroku_app_id"
+    t.string   "name"
+    t.string   "description"
+    t.integer  "price_cent",        default: 0
+    t.string   "plan_description"
+    t.string   "group_description"
+    t.string   "sso_url"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "addons", ["heroku_app_id"], name: "index_addons_on_heroku_app_id"
 
   create_table "heroku_apps", force: true do |t|
     t.string   "name"

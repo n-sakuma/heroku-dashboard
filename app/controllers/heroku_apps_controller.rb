@@ -35,16 +35,12 @@ class HerokuAppsController < ApplicationController
 
   def update_api
     attr = Api::App.new(@heroku_app.name).attributes
-    if @heroku_app.update_attributes(attr)
-      msg = 'Heroku app was successfully updated.'
-    else
-      msg = 'failed'
-    end
+    @heroku_app.update_attributes!(attr)
+    msg = 'Heroku app was successfully updated.'
+    redirect_to heroku_app_path(@heroku_app), notice: msg
   rescue => e
     logger.warn "#{e.message}"
-    msg = 'failed'
-  ensure
-    redirect_to heroku_app_path(@heroku_app), notice: msg
+    redirect_to heroku_app_path(@heroku_app), alert: 'failed.'
   end
 
   def destroy
