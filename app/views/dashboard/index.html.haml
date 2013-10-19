@@ -1,0 +1,17 @@
+- @app_groups.each do |group|
+  %h2= group.name
+  %dl.dl-horizontal
+    %dt Dynos
+    %dd= group.dynos_summary
+    %dt Addon Cost
+    %dd= number_to_currency(group.addon_cost)
+  - group.apps.each do |app|
+    %h3
+      = link_to app.name, heroku_app_path(app)
+      %small= link_to app.web_url, app.web_url
+    %dl.dl-horizontal
+      %dt dynos
+      %dd= app.dynos_summary
+      %dt Addon Cost
+      %dd= number_to_currency(app.addon_cost)
+  %hr/

@@ -8,9 +8,9 @@ Myheroku::Application.routes.draw do
     end
   end
 
-  root 'dashbord#index'
+  root 'dashboard#index'
 
-  get "dashbord/index"
+  get "dashboard/index"
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

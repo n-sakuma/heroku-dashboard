@@ -19,7 +19,7 @@
 - if @heroku_app.addons.present?
   %h3
     Addons
-    %small= number_to_currency(@heroku_app.addon_cost / 100)
+    %small= number_to_currency(@heroku_app.addon_cost)
   - @heroku_app.addons.each do |addon|
     .well
       %strong= addon.description

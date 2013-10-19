@@ -1,12 +1,17 @@
 class AppGroup < ActiveRecord::Base
   self.table_name = 'tags'
 
-  def self.grouping
-    grouping = {}
-    pluck(:name).each do |k|
-      grouping[k.to_sym] = HerokuApp.tagged_with(k).map{|a| Api::App.new(a.name)}
-    end
-    grouping
+  def apps
+    HerokuApp.tagged_with(name)
+  end
+
+  def dynos_summary
+    dynos = apps.map{|a| a.dynos.to_i}.sum
+    workers = apps.map{|a| a.workers.to_i}.sum
+    "#{dynos + workers} (web: #{dynos}, worker: #{workers})"
+  end
+
+  def addon_cost
+    apps.map(&:addon_cost).sum
   end
 end
-
