@@ -10,7 +10,7 @@ module Api
     end
 
     def attributes
-      @attribute ||= app_info.merge(api_updatable: true).merge(addons_attributes: addons)
+      @attribute ||= app_info.merge(api_updatable: true, addon_count: addons.size).merge(addons_attributes: addons)
     end
 
     def app_info

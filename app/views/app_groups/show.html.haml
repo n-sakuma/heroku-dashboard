@@ -6,7 +6,7 @@
         - @group.apps.each do |app|
           %dt= link_to app.name, heroku_app_path(app)
           %dd= "Dynos: #{app.dynos_summary}"
-          %dd= "Addon count: #{app.addons.count}"
+          %dd= "Addon count: #{app.addon_count}"
           %br/
 
   .span3.offset1
