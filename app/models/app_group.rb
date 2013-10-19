@@ -4,7 +4,7 @@ class AppGroup < ActiveRecord::Base
   def self.grouping
     grouping = {}
     pluck(:name).each do |k|
-      grouping[k.to_sym] = HerokuApp.tagged_with(k).map{|a| Api::App.new(a.name)}
+      grouping[k.to_sym] = HerokuApp.tagged_with(k)
     end
     grouping
   end

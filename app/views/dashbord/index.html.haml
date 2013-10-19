@@ -1,18 +1,18 @@
-- @api_infos.each_pair do |group, apps|
+- @app_group.each_pair do |group, apps|
   %h2= group
   - apps.each do |app|
     %h3= app.name
     %table.table.table-striped
       %tr
         %th dynos
-        %td= app.attributes[:dynos]
+        %td= app.dynos
       %tr
         %th workers
-        %td= app.attributes[:dynos]
+        %td= app.workers
       %tr
         %th domain
-        %td= app.attributes[:web_url]
+        %td= app.web_url
       - app.addons.each do |addon|
         %tr
-          %th= "Addon: #{addon[:description]}"
-          %td= "Plan: #{addon[:plan_description]},  Price(cents): #{addon[:price][:cents]}"
+          %th= "Addon: #{addon.description}"
+          %td= "Plan: #{addon.plan_description},  Price: #{number_to_currency(addon.price_doller)}"

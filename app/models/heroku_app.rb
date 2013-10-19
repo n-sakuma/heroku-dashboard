@@ -9,7 +9,7 @@ class HerokuApp < ActiveRecord::Base
   before_save :reset_addon
 
   def addon_cost
-    addons.inject(0){|sum, addon| sum += addon.price_cent}
+    addons.inject(0){|sum, addon| sum += addon.price_doller }
   end
 
   private
