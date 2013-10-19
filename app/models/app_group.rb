@@ -5,9 +5,15 @@ class AppGroup < ActsAsTaggableOn::Tag
   end
 
   def dynos_summary
-    dynos = apps.map{|a| a.dynos.to_i}.sum
-    workers = apps.map{|a| a.workers.to_i}.sum
-    "#{dynos + workers} (web: #{dynos}, worker: #{workers})"
+    total = 0
+    dyno_kind = Hash.new(0)
+    apps.map(&:dynos_kind).each do |kind|
+      total += kind.delete(:total)
+      kind.each_pair do |k, v|
+        dyno_kind[v.keys.first] += v.values.first
+      end
+    end
+    "#{total} ( #{dyno_kind.to_a.map{|d| d.join('x ')}.join(', ')} )"
   end
 
   def addon_cost
