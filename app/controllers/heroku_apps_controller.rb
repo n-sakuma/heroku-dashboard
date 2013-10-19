@@ -1,5 +1,5 @@
 class HerokuAppsController < ApplicationController
-  before_action :set_heroku_app, only: [:show, :edit, :update, :destroy]
+  before_action :set_heroku_app, only: [:show, :edit, :update, :update_api, :destroy]
 
   def index
     @heroku_apps = HerokuApp.all
@@ -31,6 +31,16 @@ class HerokuAppsController < ApplicationController
     else
       render :edit
     end
+  end
+
+  def update_api
+    attr = Api::App.new(@heroku_app.name).attributes
+    @heroku_app.update_attributes!(attr)
+    msg = 'Heroku app was successfully updated.'
+    redirect_to heroku_app_path(@heroku_app), notice: msg
+  rescue => e
+    logger.warn "#{e.message}"
+    redirect_to heroku_app_path(@heroku_app), alert: 'failed.'
   end
 
   def destroy

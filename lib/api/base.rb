@@ -15,9 +15,5 @@ module Api
     def build_client
       Heroku::API.new(api_key: ENV['API_KEY'])
     end
-
-    def parse_body(hash)
-      HashWithIndifferentAccess.new(hash)
-    end
   end
 end
