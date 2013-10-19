@@ -26,8 +26,8 @@
       %dl.dl-horizontal
         %dt Plan
         %dd= addon.plan_description
-        %dt Price
-        %dd= addon.price_cent
+        %dt Price(cent)
+        %dd= "#{addon.price['cents']} / #{addon.price['unit']}"
         %dt Group
         %dd= addon.group_description
         %dt sso_url

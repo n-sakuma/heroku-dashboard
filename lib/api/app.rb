@@ -2,8 +2,8 @@ module Api
   class App < Base
     attr_reader :name
 
-    RAILS_APP_ATTRIBUTES = %W(dynos workers web_url released_at)
-    RAILS_ADDON_ATTRIBUTES = %W(name description price_cent plan_description group_description sso_url)
+    RAILS_APP_ATTR = %W(dynos workers web_url released_at)
+    RAILS_ADDON_ATTR = %W(name description price plan_description group_description sso_url)
 
     def initialize(name)
       @name = name
@@ -14,26 +14,19 @@ module Api
     end
 
     def app_info
-      @app_info ||= parse_app(client.get_app(@name).body) rescue {}
+      @app_info ||= parse_body(client.get_app(@name).body, RAILS_APP_ATTR) rescue {}
     end
 
     def addons
-      @addons ||= client.get_addons(@name).body.map{|a| parse_addons(a)} rescue []
+      @addons ||= client.get_addons(@name).body.map{|a| parse_body(a, RAILS_ADDON_ATTR)} rescue []
     end
 
 
     private
 
-    def parse_app(hash)
+    def parse_body(hash, const)
       HashWithIndifferentAccess.new(hash).keep_if do |k, v|
-        RAILS_APP_ATTRIBUTES.include?(k)
-      end
-    end
-
-    def parse_addons(hash)
-      hash[:price_cent] = hash['price']['cents']
-      HashWithIndifferentAccess.new(hash).keep_if do |k, v|
-        RAILS_ADDON_ATTRIBUTES.include?(k)
+        const.include?(k)
       end
     end
 
