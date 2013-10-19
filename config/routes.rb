@@ -1,4 +1,4 @@
-Myheroku::Application.routes.draw do
+HerokuDashboard::Application.routes.draw do
 
   scope :settings do
     resources :apps, controller: 'heroku_apps', as: 'heroku_apps' do
