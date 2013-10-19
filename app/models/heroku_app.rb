@@ -8,6 +8,8 @@ class HerokuApp < ActiveRecord::Base
 
   before_save :reset_addon
 
+  validates :name, presence: true
+
   def dynos_summary
     "#{dynos.to_i + workers.to_i} (web: #{dynos.to_i}, worker: #{workers.to_i})"
   end

@@ -1,5 +1,4 @@
-class AppGroup < ActiveRecord::Base
-  self.table_name = 'tags'
+class AppGroup < ActsAsTaggableOn::Tag
 
   def apps
     HerokuApp.tagged_with(name)
