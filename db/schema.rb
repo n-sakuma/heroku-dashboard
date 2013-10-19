@@ -13,6 +13,9 @@
 
 ActiveRecord::Schema.define(version: 20131018101844) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "addons", force: true do |t|
     t.integer  "heroku_app_id"
     t.string   "name"
@@ -25,7 +28,7 @@ ActiveRecord::Schema.define(version: 20131018101844) do
     t.datetime "updated_at"
   end
 
-  add_index "addons", ["heroku_app_id"], name: "index_addons_on_heroku_app_id"
+  add_index "addons", ["heroku_app_id"], name: "index_addons_on_heroku_app_id", using: :btree
 
   create_table "heroku_apps", force: true do |t|
     t.string   "name"
@@ -47,8 +50,8 @@ ActiveRecord::Schema.define(version: 20131018101844) do
     t.datetime "created_at"
   end
 
-  add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id"
-  add_index "taggings", ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context"
+  add_index "taggings", ["tag_id"], name: "index_taggings_on_tag_id", using: :btree
+  add_index "taggings", ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context", using: :btree
 
   create_table "tags", force: true do |t|
     t.string "name"
