@@ -1,5 +1,5 @@
 class DashbordController < ApplicationController
   def index
-    @app_group = AppGroup.grouping
+    @app_groups = AppGroup.all
   end
 end

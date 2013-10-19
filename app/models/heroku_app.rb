@@ -8,6 +8,10 @@ class HerokuApp < ActiveRecord::Base
 
   before_save :reset_addon
 
+  def dynos_summary
+    "#{dynos.to_i + workers.to_i} (web: #{dynos.to_i}, worker: #{workers.to_i})"
+  end
+
   def addon_cost
     addons.inject(0){|sum, addon| sum += addon.price_doller }
   end
