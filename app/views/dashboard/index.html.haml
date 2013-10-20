@@ -1,17 +1,30 @@
 - @app_groups.each do |group|
-  %h2= group.name
-  %dl.dl-horizontal.well
-    %dt Dynos
-    %dd= group.dynos_summary
-    %dt Addon Cost
-    %dd= number_to_currency(group.addon_cost)
-  .span12.offset1
+  .well.row
+    .span2
+    .span6
+      %h1.text-center
+        = link_to group.name, group_path(group.name)
+        = content_tag(:i, '', class: 'icon-tags')
+    .span3
+      - if group.apps.present?
+        %h4
+          = "#{group.dynos_total_count}"
+          %small dynos
+        %h4
+          = "#{number_to_currency(group.addon_cost)}"
+          %small Addons
+  - if group.apps.present?
     - group.apps.each do |app|
-      %h3
-        = link_to app.name, heroku_app_path(app)
-        %small= link_to app.web_url, app.web_url
-      %dl.dl-horizontal
-        %dt dynos
-        %dd= app.dynos_summary
-        %dt Addon Cost
-        %dd= number_to_currency(app.addon_cost)
+      .offset2
+        %h3
+          %label{:class => "label #{formatted_dynos(app.dynos_status_score)}"} Status
+          = link_to app.name, heroku_app_path(app)
+          %small= link_to app.web_url, app.web_url
+        %dl.dl-horizontal
+          %dt dynos
+          %dd= app.dynos_summary
+          %dt Addon Cost
+          %dd= number_to_currency(app.addon_cost)
+  - else
+    %p.text-center No Apps.
+    %hr/

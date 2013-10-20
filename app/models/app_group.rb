@@ -16,6 +16,10 @@ class AppGroup < ActsAsTaggableOn::Tag
     "#{total} ( #{dyno_kind.to_a.map{|d| d.join('x ')}.join(', ')} )"
   end
 
+  def dynos_total_count
+    apps.map(&:dynos_kind).map{|v| v[:total]}.sum
+  end
+
   def addon_cost
     apps.map(&:addon_cost).sum
   end
