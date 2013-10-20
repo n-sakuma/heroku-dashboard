@@ -32,6 +32,18 @@ class HerokuApp < ActiveRecord::Base
     hs.merge(total: dynos_dup.map(&:size).sum)
   end
 
+  def dynos_statuses
+    dynos_dup = dynos
+    dynos_dup.map(&:status)
+  end
+
+  def dynos_status_score
+    return -1 if dynos_statuses.empty?
+    all_status = dynos_statuses.size.to_f
+    ok = dynos_statuses.select{|s| s == "up"}.size.to_f
+    (ok / all_status) * 100
+  end
+
   def addon_cost
     addons.inject(0){|sum, addon| sum += addon.price_doller }
   end
