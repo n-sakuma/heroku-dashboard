@@ -24,6 +24,8 @@ group :doc do
 end
 
 group :development, :test do
+  gem 'thin'
+
   gem 'debugger'
   gem 'pry-rails'
   gem 'pry-debugger'
