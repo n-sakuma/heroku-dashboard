@@ -14,4 +14,10 @@ class AppGroupsController < ApplicationController
     end
   end
 
+  def addons_status
+    @app_groups = AppGroup.all
+    respond_to do |format|
+      format.json
+    end
+  end
 end

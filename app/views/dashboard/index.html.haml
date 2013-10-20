@@ -1,39 +1,9 @@
-#holder
+.row
+  .span6
+    #dynos-chart-holder
+  .span6
+    #addons-chart-holder
 
-:coffee
-  $ ->
-    dynos_legend = []
-    dynos_data = []
-    dynos_desc = []
-    $.ajax "#{dynos_info_path(format: :json)}",
-      type: 'GET'
-      dataType: 'json'
-      error: (jqXHR, textStatus, errorThrown) =>
-        console.log textStatus
-      success: (data, textStatus, jqXHR) =>
-        $(data).each (key, message) =>
-          dynos_legend.push message.name
-          dynos_data.push message.dyno_data
-          dynos_desc.push message.dyno_desc if message.dyno_data > 0
-        r = Raphael("holder")
-        pie = r.piechart(150, 200, 80, dynos_data, { legend: dynos_legend, legendpos: "west", href: dynos_desc})
-        r.text(150, 80, "Dynos").attr font: "20px sans-serif"
-        pie.hover (->
-          @sector.stop()
-          @sector.scale 1.1, 1.1, @cx, @cy
-          if @label
-            @label[0].stop()
-            @label[0].attr r: 7.5
-            @label[1].attr "font-weight": 800
-        ), ->
-          @sector.animate
-            transform: "s1 1 " + @cx + " " + @cy
-          , 500, "bounce"
-          if @label
-            @label[0].animate
-              r: 5
-            , 500, "bounce"
-            @label[1].attr "font-weight": 400
 
 - @app_groups.each do |group|
   .well.row
