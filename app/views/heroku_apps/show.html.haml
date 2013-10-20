@@ -1,4 +1,4 @@
-%p.text-right= "Released: #{l @heroku_app.released_at}"
+%p.text-right= "Released: #{@heroku_app.try(:released_at).to_s}"
 %h1.text-center
   %label{:class => "label #{formatted_dynos(@heroku_app.dynos_status_score)}"} Status
   = @heroku_app.name

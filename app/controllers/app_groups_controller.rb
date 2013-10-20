@@ -7,4 +7,11 @@ class AppGroupsController < ApplicationController
     @groups = AppGroup.where.not(id: @group.id)
   end
 
+  def dynos_status
+    @app_groups = AppGroup.all
+    respond_to do |format|
+      format.json
+    end
+  end
+
 end
