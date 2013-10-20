@@ -1,4 +1,5 @@
 %h2
+%p.text-right= "Released: #{l @heroku_app.released_at}"
   = @heroku_app.name
   = link_to content_tag(:i, '', class: 'icon-edit'), edit_heroku_app_path(@heroku_app)
 .row
@@ -14,8 +15,6 @@
         %dd= @heroku_app.dynos_summary
         %dt Web URL
         %dd= link_to @heroku_app.web_url, @heroku_app.web_url
-        %dt release date
-        %dd= @heroku_app.released_at
 
       - if @heroku_app.addons.present?
         %h3
