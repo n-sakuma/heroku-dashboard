@@ -35,3 +35,26 @@
   - else
     %p.text-center No Apps.
     %hr/
+
+:coffee
+  $(document).ready ->
+
+    dynosChartPosition =
+      positionId: 'dynos-chart-holder'
+      chart_x: 250
+      chart_y: 200
+      radial: 120
+      title_x: 240
+      title_y: 30
+      title_pos: "west"
+    HerokuDashboard.displayChart('Dynos', 10000, "#{dynos_info_path(format: :json)}", dynosChartPosition)
+
+    addonsChartPosition =
+      positionId: 'addons-chart-holder'
+      chart_x: 280
+      chart_y: 200
+      radial: 120
+      title_x: 260
+      title_y: 30
+      title_pos: "west"
+    HerokuDashboard.displayChart('Addons', 2000, "#{addons_info_path(format: :json)}", addonsChartPosition)
