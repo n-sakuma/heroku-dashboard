@@ -33,8 +33,7 @@ class HerokuApp < ActiveRecord::Base
   end
 
   def dynos_statuses
-    dynos_dup = dynos
-    dynos_dup.map(&:status)
+    dynos.pluck(:status)
   end
 
   def dynos_status_score
