@@ -10,7 +10,7 @@ class HerokuApp < ActiveRecord::Base
 
   before_save :reset_resources
 
-  validates :name, presence: true
+  validates :name, presence: true, uniqueness: true  # TODO: DBでユニーク制約を入れる
 
   def dynos_summary
     dynos_kind_dup = dynos_kind.dup
