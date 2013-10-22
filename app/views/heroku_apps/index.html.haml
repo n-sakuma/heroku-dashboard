@@ -4,8 +4,7 @@
 %table.table.table-striped
   - @heroku_apps.each do |heroku_app|
     %tr
-      %td
-        %label{:class => "label #{formatted_dynos(heroku_app.dynos_status_score)}"} Status
+      %td= formatted_dynos_status_label(heroku_app)
       %td
         %h3
           = link_to heroku_app.name, heroku_app

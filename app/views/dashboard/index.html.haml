@@ -24,7 +24,7 @@
     - group.apps.each do |app|
       .offset2
         %h3
-          %label{:class => "label #{formatted_dynos(app.dynos_status_score)}"} Status
+          = formatted_dynos_status_label(app)
           = link_to app.name, heroku_app_path(app)
           %small= link_to app.web_url, app.web_url
         %dl.dl-horizontal

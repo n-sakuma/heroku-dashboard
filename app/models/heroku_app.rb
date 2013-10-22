@@ -40,6 +40,23 @@ class HerokuApp < ActiveRecord::Base
     dynos.pluck(:status)
   end
 
+  def dynos_status_summary
+    statuses = dynos_statuses
+    if statuses.uniq.size == 1
+      statuses.first
+    else
+      case dynos_status_score
+      when -1 then 'No Dyno'
+      when 0 then 'Down'
+      when 1..99
+        '1..99'
+      when 100 then 'Up'
+      else
+        "..."
+      end
+    end
+  end
+
   def dynos_status_score
     return -1 if dynos_statuses.empty?
     all_status = dynos_statuses.size.to_f

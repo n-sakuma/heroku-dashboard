@@ -19,7 +19,7 @@ module ApplicationHelper
      ''         => ''}[status]
   end
 
-  def formatted_dynos(score)
+  def dynos_status_css_class(score)
     if score == 100
       "label-success"
     elsif score == 0
@@ -29,6 +29,11 @@ module ApplicationHelper
     else
       "label-warning"
     end
+  end
+
+  def formatted_dynos_status_label(app)
+    content_tag(:label, app.dynos_status_summary,
+                class: "label #{dynos_status_css_class(app.dynos_status_score)}")
   end
 
 end

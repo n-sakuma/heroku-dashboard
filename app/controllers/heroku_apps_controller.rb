@@ -2,7 +2,7 @@ class HerokuAppsController < ApplicationController
   before_action :set_heroku_app, only: [:show, :edit, :update, :update_api, :destroy]
 
   def index
-    @heroku_apps = HerokuApp.all
+    @heroku_apps = HerokuApp.order(:name)
   end
 
   def show
