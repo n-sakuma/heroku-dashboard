@@ -47,7 +47,7 @@
       title_x: 240
       title_y: 30
       title_pos: "west"
-    HerokuDashboard.displayChart('Dynos', 10000, "#{dynos_info_path(format: :json)}", dynosChartPosition)
+    HerokuDashboard.displayChart('Dynos', 20000, "#{dynos_info_path(format: :json)}", dynosChartPosition)
 
     addonsChartPosition =
       positionId: 'addons-chart-holder'
@@ -57,4 +57,4 @@
       title_x: 260
       title_y: 30
       title_pos: "west"
-    HerokuDashboard.displayChart('Addons', 2000, "#{addons_info_path(format: :json)}", addonsChartPosition)
+    HerokuDashboard.displayChart('Addons', 2500, "#{addons_info_path(format: :json)}", addonsChartPosition)
