@@ -3,6 +3,8 @@ HerokuDashboard::Application.routes.draw do
   root 'dashboard#index'
 
   get "dashboard/index"
+  get "dynos/info" => 'app_groups#dynos_status'
+  get "addons/info" => 'app_groups#addons_status'
   get "group/:tag" => 'app_groups#show', as: :group
   scope :settings do
     resources :apps, controller: 'heroku_apps', as: 'heroku_apps' do

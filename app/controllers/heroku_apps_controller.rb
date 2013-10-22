@@ -40,7 +40,7 @@ class HerokuAppsController < ApplicationController
     redirect_to heroku_app_path(@heroku_app), notice: msg
   rescue => e
     logger.warn "#{e.message}"
-    redirect_to heroku_app_path(@heroku_app), alert: 'failed.'
+    redirect_to heroku_app_path(@heroku_app), alert: 'Failed API Update.'
   end
 
   def destroy

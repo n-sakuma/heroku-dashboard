@@ -1,15 +1,15 @@
 .row
-  .span6.offset1
-    %h1= @group.name
+  .span9
+    %h1.text-center= @group.name
     .span6.offset1
       %dl
         - @group.apps.each do |app|
           %dt= link_to app.name, heroku_app_path(app)
           %dd= "Dynos: #{app.dynos_summary}"
-          %dd= "Addon count: #{app.addons.count}"
+          %dd= "Addon count: #{app.addon_count}"
           %br/
 
-  .span3.offset1
+  .span3
     .well.sidebar-nav
       %h4 Tags
       %ul.nav.nav-list

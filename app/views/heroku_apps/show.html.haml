@@ -1,36 +1,43 @@
-%h2
+%p.text-right= "Released: #{@heroku_app.try(:released_at).to_s}"
+%h1.text-center
+  %label{:class => "label #{formatted_dynos(@heroku_app.dynos_status_score)}"} Status
   = @heroku_app.name
-  = link_to content_tag(:i, '', class: 'icon-edit'), edit_heroku_app_path(@heroku_app)
-.btn.btn-info.pull-right= link_to 'Get API Info', update_api_heroku_app_path(@heroku_app), method: :put
-%dl.dl-horizontal
-  %dt Tag
-  %dd
+  %small
     = raw linked_tags(@heroku_app.tag_list)
     = link_to content_tag(:i, '', class: 'icon-tags'), edit_heroku_app_path(@heroku_app)
-  %dt dynos
-  %dd= @heroku_app.dynos
-  %dt workers
-  %dd= @heroku_app.workers
-  %dt Web URL
-  %dd= link_to @heroku_app.web_url, @heroku_app.web_url
-  %dt release date
-  %dd= @heroku_app.released_at
+%p.text-center= link_to @heroku_app.web_url, @heroku_app.web_url
 
-- if @heroku_app.addons.present?
-  %h3
-    Addons
-    %small= number_to_currency(@heroku_app.addon_cost)
-  - @heroku_app.addons.each do |addon|
-    .well
-      %strong= addon.description
+.row
+  .span8
+    .span7.offset1
       %dl.dl-horizontal
-        %dt Plan
-        %dd= addon.plan_description
-        %dt Price(cent)
-        %dd= "#{addon.price['cents']} / #{addon.price['unit']}"
-        %dt Group
-        %dd= addon.group_description
-        %dt sso_url
-        %dd= link_to(addon.sso_url, addon.sso_url) if addon.sso_url.present?
--else
-  No Addons.
+        - @heroku_app.dynos.sort.each do |dyno|
+          %dt= dyno.name
+          %dd= labeling_dyno_status(dyno.status)
+
+      .btn.btn-info.pull-right= link_to 'Update App Info', update_api_heroku_app_path(@heroku_app), method: :put
+
+      - if @heroku_app.addons.present?
+        %h3
+          Addons
+          %small= number_to_currency(@heroku_app.addon_cost)
+        - @heroku_app.addons.each do |addon|
+          .well
+            %strong= addon.description
+            %dl.dl-horizontal
+              %dt Plan
+              %dd= addon.plan_description
+              %dt Price(cent)
+              %dd= "#{addon.price['cents']} / #{addon.price['unit']}"
+              %dt Group
+              %dd= addon.group_description
+              %dt sso_url
+              %dd= link_to(addon.sso_url, addon.sso_url) if addon.sso_url.present?
+      -else
+        No Addons.
+  .span3.offset1
+    .well.sidebar-nav
+      %h4= "\"#{@heroku_app.tag_list}\" Apps"
+      %ul.nav.nav-list
+        - @heroku_app.find_related_tags.each do |app|
+          %li= link_to app.name, heroku_app_path(app)
