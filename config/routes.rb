@@ -7,6 +7,8 @@ HerokuDashboard::Application.routes.draw do
   get "addons/info" => 'app_groups#addons_status'
   get "group/:tag" => 'app_groups#show', as: :group
   scope :settings do
+    get "apps/unregistered" => 'heroku_apps#unregistered_apps', as: 'unregistered_apps'
+    post "apps/multiple" => 'heroku_apps#multiple_create', as: 'multiple_create'
     resources :apps, controller: 'heroku_apps', as: 'heroku_apps' do
       member do
         put :update_api

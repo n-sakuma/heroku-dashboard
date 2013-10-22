@@ -6,7 +6,7 @@ module Api
     IMPORT_ADDON_ATTR = %W(name description price plan_description group_description sso_url)
     IMPORT_PS_ATTR = {'process' => 'name', 'state' => 'status', 'release' => 'release_number', 'size' => 'size'}
 
-    def initialize(name)
+    def initialize(name = "")
       @name = name
     end
 
@@ -18,6 +18,10 @@ module Api
 
     def app_info
       parse_body(client.get_app(@name).body, IMPORT_APP_ATTR) rescue {}
+    end
+
+    def self.app_names
+      self.new.client.get_apps.body.map{|a| a['name']} rescue []
     end
 
     def addons

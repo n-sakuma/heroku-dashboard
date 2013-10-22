@@ -1,5 +1,15 @@
-%h1 New heroku_app
+%h1 New Heroku App
 
 = render 'form'
 
-= link_to 'Back', heroku_apps_path
+= link_to 'Cancel', heroku_apps_path
+
+%hr/
+
+= link_to 'Get Unregisterd Apps', unregistered_apps_path, :remote => true, :'data-type' => :html, :id => 'get-unregistered-apps'
+
+%p#unregistered-apps
+
+:coffee
+  $('body').on 'ajax:success', '#get-unregistered-apps', (data, res, xhr) ->
+    $('#unregistered-apps').html res

@@ -12,6 +12,12 @@ class HerokuAppsController < ApplicationController
     @heroku_app = HerokuApp.new
   end
 
+  def unregistered_apps
+    @app_names = Api::App.app_names - HerokuApp.pluck(:name)
+    render layout: false #, status: :ok
+    # render layout: (request.headers["X-Requested-With"] != 'XMLHttpRequest')
+  end
+
   def edit
   end
 
@@ -23,6 +29,14 @@ class HerokuAppsController < ApplicationController
     else
       render :new
     end
+  end
+
+  def multiple_create
+    # binding.pry
+    params[:apps].values.each do |app|
+      HerokuApp.create(name: app)
+    end
+    redirect_to heroku_apps_path, notice: 'created'
   end
 
   def update
