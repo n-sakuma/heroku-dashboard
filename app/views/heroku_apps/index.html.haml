@@ -1,11 +1,16 @@
+.btn.btn-info.pull-right= link_to 'New App', new_heroku_app_path
 %h1 Heroku Apps
 
 %table.table.table-striped
   - @heroku_apps.each do |heroku_app|
     %tr
-      %td= link_to heroku_app.name, heroku_app
-      %td= raw linked_tags(heroku_app.tag_list)
-      %td= link_to 'Edit', edit_heroku_app_path(heroku_app)
-      %td= link_to 'Destroy', heroku_app, :method => :delete, :data => { :confirm => 'Are you sure?' }
-%hr
-.btn.btn-info= link_to 'New Heroku app', new_heroku_app_path
+      %td
+        %label{:class => "label #{formatted_dynos(heroku_app.dynos_status_score)}"} Status
+      %td
+        %h3
+          = link_to heroku_app.name, heroku_app
+          %small
+            = raw linked_tags(heroku_app.tag_list)
+            = content_tag(:i, '', class: 'icon-tags')
+      %td= link_to content_tag(:i, '', :class => 'icon-trash'), heroku_app, :method => :delete, :data => { :confirm => 'Are you sure?' }
+%hr/

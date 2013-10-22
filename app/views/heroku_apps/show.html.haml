@@ -5,6 +5,8 @@
   %small
     = raw linked_tags(@heroku_app.tag_list)
     = link_to content_tag(:i, '', class: 'icon-tags'), edit_heroku_app_path(@heroku_app)
+  .btn.btn-danger.pull-right= link_to content_tag(:i, '', class: 'icon-trash'), @heroku_app, method: :delete, data: { confirm: 'Are you sure?' }
+
 %p.text-center= link_to @heroku_app.web_url, @heroku_app.web_url
 
 .row
