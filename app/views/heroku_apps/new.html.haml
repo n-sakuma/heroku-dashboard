@@ -1,15 +1,16 @@
-%h1 New Heroku App
+%h1.text-center New Heroku Apps
 
-= render 'form'
-
-= link_to 'Cancel', heroku_apps_path
-
-%hr/
-
-= link_to 'Get Unregisterd Apps', unregistered_apps_path, :remote => true, :'data-type' => :html, :id => 'get-unregistered-apps'
-
-%p#unregistered-apps
-
-:coffee
-  $('body').on 'ajax:success', '#get-unregistered-apps', (data, res, xhr) ->
-    $('#unregistered-apps').html res
+- if @app_names.empty?
+  .text-center.alert.alert-warning Not exist registration Heroku apps.
+- else
+  .offset2
+    = form_tag multiple_create_path, class: 'form-inline' do
+      - @app_names.each do |name|
+        %h4
+          .checkbox
+            = check_box_tag "apps[#{name}][name]", name
+            %strong= name
+            = text_field_tag "apps[#{name}][tags]", nil, placeholder: "Tag.."
+      .btn-block
+        = submit_tag 'Create', class: "btn btn-primary"
+        .btn.btn-default= link_to 'Cancel', heroku_apps_path

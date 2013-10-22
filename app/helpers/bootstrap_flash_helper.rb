@@ -10,12 +10,7 @@ module BootstrapFlashHelper
       type = :error   if type == :alert
       next unless ALERT_TYPES.include?(type)
 
-      Array(message).each do |msg|
-        next unless msg
-        text = content_tag(:div, content_tag(:button, raw("&times;"), :class => "close", "data-dismiss" => "alert") +
-                           msg.html_safe, :class => "alert fade in alert-#{type}")
-        flash_messages << text
-      end
+      flash_messages << content_tag(:div, Array(message).compact.join("<br />").html_safe, class: "alert alert-#{type}")
     end
     flash_messages.join("\n").html_safe
   end

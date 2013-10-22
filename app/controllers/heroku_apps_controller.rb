@@ -9,34 +9,15 @@ class HerokuAppsController < ApplicationController
   end
 
   def new
-    @heroku_app = HerokuApp.new
-  end
-
-  def unregistered_apps
     @app_names = Api::App.app_names - HerokuApp.pluck(:name)
-    render layout: false #, status: :ok
-    # render layout: (request.headers["X-Requested-With"] != 'XMLHttpRequest')
   end
 
   def edit
   end
 
-  def create
-    @heroku_app = HerokuApp.new(heroku_app_params)
-
-    if @heroku_app.save
-      redirect_to @heroku_app, notice: 'Heroku app was successfully created.'
-    else
-      render :new
-    end
-  end
-
   def multiple_create
-    # binding.pry
-    params[:apps].values.each do |app|
-      HerokuApp.create(name: app)
-    end
-    redirect_to heroku_apps_path, notice: 'created'
+    result = HerokuApp.multiple_create(multiple_app_params)
+    redirect_to heroku_apps_path, notice: result[:success], alert: result[:failed]
   end
 
   def update
@@ -72,5 +53,9 @@ class HerokuAppsController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def heroku_app_params
     params.require(:heroku_app).permit(:name, :tag_list)
+  end
+
+  def multiple_app_params
+    params[:apps].select{|k, v| v.has_key?(:name)}
   end
 end

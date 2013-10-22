@@ -9,11 +9,23 @@ class HerokuApp < ActiveRecord::Base
   accepts_nested_attributes_for :dynos, allow_destroy: true
 
   before_save :reset_resources
-  before_save :update_api_info, on: :create
+  before_validation :update_api_info, on: :create
 
   validates :name, presence: true, uniqueness: true  # TODO: DBでユニーク制約を入れる
   validate :validate_exist_on_heroku
 
+  def self.multiple_create(params)
+    result = {success: [], failed: []}
+    params.each_pair do |k, v|
+      begin
+        HerokuApp.create!(name: v[:name], tag_list: v[:tags])
+        result[:success] << "'#{k}' : successfully created."
+      rescue
+        result[:failed] << "'#{k}' : failed."
+      end
+    end
+    result
+  end
 
   # TODO: リファクタリング: dyno 周りの処理をクラス化するなどしてすっきりさせる。
   def dynos_summary

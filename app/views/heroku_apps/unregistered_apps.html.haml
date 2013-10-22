@@ -1,9 +1,0 @@
-%h3 Unregistered Apps
-
-= form_tag multiple_create_path do
-  - @app_names.each do |name|
-    %p
-      = check_box_tag "apps[#{name}]", name
-      = name
-
-  = submit_tag 'Regist'
