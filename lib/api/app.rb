@@ -35,6 +35,10 @@ module Api
       end
     end
 
+    def exist?
+      client.get_apps.body.map{|a| a["name"]}.include?(@name) rescue false
+    end
+
 
     private
 

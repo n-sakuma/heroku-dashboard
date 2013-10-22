@@ -9,9 +9,13 @@ class HerokuApp < ActiveRecord::Base
   accepts_nested_attributes_for :dynos, allow_destroy: true
 
   before_save :reset_resources
+  before_save :update_api_info, on: :create
 
   validates :name, presence: true, uniqueness: true  # TODO: DBでユニーク制約を入れる
+  validate :validate_exist_on_heroku
 
+
+  # TODO: リファクタリング: dyno 周りの処理をクラス化するなどしてすっきりさせる。
   def dynos_summary
     dynos_kind_dup = dynos_kind.dup
     total = dynos_kind_dup.delete(:total)
@@ -55,5 +59,13 @@ class HerokuApp < ActiveRecord::Base
       addons.where.not(created_at: nil).delete_all
       dynos.where.not(created_at: nil).delete_all
     end
+  end
+
+  def validate_exist_on_heroku
+    errors.add :base, "Don't exit on Heroku'" unless Api::App.new(name).exist?
+  end
+
+  def update_api_info
+    self.attributes = Api::App.new(name).attributes
   end
 end
