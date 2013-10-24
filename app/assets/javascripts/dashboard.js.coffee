@@ -52,17 +52,20 @@ class @HerokuDashboard
       else
         @labels.push message.name
         @data.push message.addons_cost
+    @total = @data.reduce (a, b) -> a + b
+    @data.push @total
+    @labels.push "Free  (%%.%)"
 
   @resetValues = ->
     @data = []
     @labels = []
     @descriptions = []
     @title = ""
+    @total = null
 
   @titlize = (chartType, data, maxValue) ->
-    total = @data.reduce (a, b) -> a + b
-    parcentage = (total / maxValue * 100).toFixed(1)
+    parcentage = (@total / maxValue * 100).toFixed(1)
     if chartType == 'Dynos'
-      @title = "#{chartType}: #{parcentage}% (#{total}/#{maxValue})"
+      @title = "#{chartType}: #{parcentage}% (#{@total}/#{maxValue})"
     else
-      @title = "#{chartType}: #{parcentage}% ($#{total}/$#{maxValue})"
+      @title = "#{chartType}: #{parcentage}% ($#{@total}/$#{maxValue})"
