@@ -8,6 +8,7 @@ HerokuDashboard::Application.routes.draw do
   get "group/:tag" => 'app_groups#show', as: :group
   scope :settings do
     post "apps/multiple" => 'heroku_apps#multiple_create', as: 'multiple_create'
+    put "apps/multiple" => 'heroku_apps#multiple_update', as: 'multiple_update'
     resources :apps, controller: 'heroku_apps', as: 'heroku_apps', except: [:create] do
       member do
         put :update_api

@@ -20,6 +20,11 @@ class HerokuAppsController < ApplicationController
     redirect_to heroku_apps_path, notice: result[:success], alert: result[:failed]
   end
 
+  def multiple_update
+    result = HerokuApp.multiple_update
+    redirect_to root_path, notice: result[:success], alert: result[:failed]
+  end
+
   def update
     if @heroku_app.update(heroku_app_params)
       redirect_to @heroku_app, notice: 'Heroku app was successfully updated.'

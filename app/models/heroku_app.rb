@@ -27,6 +27,20 @@ class HerokuApp < ActiveRecord::Base
     result
   end
 
+  def self.multiple_update
+    result = {success: [], failed: []}
+    HerokuApp.all.each do |app|
+      begin
+        app.update_attributes!(Api::App.new(app.name).attributes)
+        result[:success] << app.name
+      rescue
+        result[:failed] << "#{app.name}: NG"
+      end
+    end
+    result.store(:success, "Update OK, #{result[:success].size} Apps") unless result[:success].empty?
+    result
+  end
+
   # TODO: リファクタリング: dyno 周りの処理をクラス化するなどしてすっきりさせる。
   def dynos_summary
     dynos_kind_dup = dynos_kind.dup
