@@ -27,16 +27,18 @@ class HerokuApp < ActiveRecord::Base
     result
   end
 
-  def self.multiple_update
+  def self.multiple_update(async = false)
+    binding.pry
     result = {success: [], failed: []}
     HerokuApp.all.each do |app|
       begin
         app.update_attributes!(Api::App.new(app.name).attributes)
-        result[:success] << app.name
+        result[:success] << app.name    unless async
       rescue
         result[:failed] << "#{app.name}: NG"
       end
     end
+    return if async
     result.store(:success, "Update OK, #{result[:success].size} Apps") unless result[:success].empty?
     result
   end
@@ -94,6 +96,16 @@ class HerokuApp < ActiveRecord::Base
     addons.inject(0){|sum, addon| sum += addon.price_doller }
   end
 
+  def async
+    Resque.enqueue(HerokuInfoUpdater, self.id)
+  end
+
+  def update_api_attributes!
+    # binding.pry
+    self.attributes = ::Api::App.new(name).attributes
+    self.async_running = false
+    save!
+  end
 
   private
 
@@ -109,6 +121,6 @@ class HerokuApp < ActiveRecord::Base
   end
 
   def update_api_info
-    self.attributes = Api::App.new(name).attributes
+    self.attributes = ::Api::App.new(name).attributes
   end
 end

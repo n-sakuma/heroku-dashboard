@@ -18,7 +18,7 @@ gem 'jbuilder', '~> 1.2'
 gem 'haml-rails'
 gem 'foreman'
 gem 'acts-as-taggable-on'
-gem "resque", "~> 2.0.0.pre.1", github: "resque/resque"
+gem "resque", "~> 2.0.0.pre.1", github: "resque/resque", require: 'redis/server'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
