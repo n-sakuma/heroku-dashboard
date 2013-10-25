@@ -25,7 +25,7 @@ group :doc do
 end
 
 group :development, :test do
-  gem 'thin'
+  gem 'puma'
 
   gem 'debugger'
   gem 'pry-rails'
