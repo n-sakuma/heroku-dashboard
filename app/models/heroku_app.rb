@@ -12,7 +12,7 @@ class HerokuApp < ActiveRecord::Base
   before_validation :update_api_info, on: :create
 
   validates :name, presence: true, uniqueness: true  # TODO: DBでユニーク制約を入れる
-  validate :validate_exist_on_heroku
+  validate :validate_exist_on_heroku, on: :create
 
   def self.multiple_create(params)
     result = {success: [], failed: []}
@@ -92,6 +92,19 @@ class HerokuApp < ActiveRecord::Base
 
   def addon_cost
     addons.inject(0){|sum, addon| sum += addon.price_doller }
+  end
+
+  def self.all_async!
+    find_each do |app|
+      app.async_get_api!
+    end
+  end
+
+  def async_get_api!
+    update_attributes!(async_running: true)
+    HerokuInfoUpdater.perform_async(id)
+  rescue => e
+    logger.warn "Failed: #{e.message}"
   end
 
 

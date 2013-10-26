@@ -1,5 +1,8 @@
 .row
-  .pull-right.btn.btn-info= link_to 'Update App', multiple_update_path, method: :put
+  .offset8.pull-right
+    - if HerokuApp.pluck(:async_running).include?(true)
+      .label.label-warning Async running...
+    .btn.btn-info= link_to 'Update App', multiple_update_path, method: :put
 
 .row
   .span6
