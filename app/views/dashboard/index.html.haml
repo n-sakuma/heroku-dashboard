@@ -1,8 +1,7 @@
 .row
   .offset8.pull-right
-    - if HerokuApp.pluck(:async_running).include?(true)
-      .label.label-warning Async running...
-    .btn.btn-info= link_to 'Update App', multiple_update_path, method: :put
+    #async-running-status.label.label-warning{:style => 'display: none;'} Async running...
+    #async-run-btn.btn.btn-info= link_to 'Update App', multiple_update_path(format: :json), method: :put, remote: true
 
 .row
   .span6
@@ -64,3 +63,6 @@
       title_y: 30
       title_pos: "west"
     HerokuDashboard.displayChart('Addons', 2500, "#{addons_info_path(format: :json)}", addonsChartPosition)
+
+    $('body').on 'ajax:success', '#async-run-btn', (data, res, xhr) ->
+      $('#async-running-status').show()
