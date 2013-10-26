@@ -21,8 +21,8 @@ class HerokuAppsController < ApplicationController
   end
 
   def multiple_update
-    result = HerokuApp.multiple_update
-    redirect_to root_path, notice: result[:success], alert: result[:failed]
+    HerokuApp.all_async!
+    render json: {}, status: :ok
   end
 
   def update
@@ -34,13 +34,11 @@ class HerokuAppsController < ApplicationController
   end
 
   def update_api
-    attr = Api::App.new(@heroku_app.name).attributes
-    @heroku_app.update_attributes!(attr)
-    msg = 'Heroku app was successfully updated.'
-    redirect_to heroku_app_path(@heroku_app), notice: msg
+    @heroku_app.async_get_api!
+    render json: {}, status: :ok
   rescue => e
     logger.warn "#{e.message}"
-    redirect_to heroku_app_path(@heroku_app), alert: 'Failed API Update.'
+    redirect_to heroku_app_path(@heroku_app), alert: "Failed: #{e.message}"
   end
 
   def destroy
