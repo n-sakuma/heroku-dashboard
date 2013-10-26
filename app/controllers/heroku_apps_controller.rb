@@ -21,8 +21,10 @@ class HerokuAppsController < ApplicationController
   end
 
   def multiple_update
-    result = HerokuApp.multiple_update
-    redirect_to root_path, notice: result[:success], alert: result[:failed]
+    # result = HerokuApp.multiple_update
+    # redirect_to root_path, notice: result[:success], alert: result[:failed]
+    HerokuApp.all_async!
+    redirect_to root_path, notice: 'Async start...'
   end
 
   def update

@@ -18,6 +18,7 @@ gem 'jbuilder', '~> 1.2'
 gem 'haml-rails'
 gem 'foreman'
 gem 'acts-as-taggable-on'
+gem 'rails-queue', github: 'n-sakuma/rails-queue'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.

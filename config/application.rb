@@ -21,6 +21,11 @@ module HerokuDashboard
     # Run "rake -D time" for a list of tasks for finding time zone names. Default is UTC.
     config.time_zone = 'Tokyo'
 
+    # config.queue = Rails::Queue::SynchronousQueue.new
+    # config.queue_consumer = Rails::Queue::ThreadedQueueConsumer.new
+
+    # config.queue = Rails::Queue::SynchronousQueue.new
+
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
