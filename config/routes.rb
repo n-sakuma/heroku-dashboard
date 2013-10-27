@@ -1,4 +1,7 @@
+require 'sidekiq/web'
+
 HerokuDashboard::Application.routes.draw do
+  mount Sidekiq::Web => '/sidekiq'
 
   root 'dashboard#index'
 

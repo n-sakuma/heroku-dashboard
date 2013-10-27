@@ -19,6 +19,7 @@ gem 'haml-rails'
 gem 'foreman'
 gem 'acts-as-taggable-on'
 gem 'sidekiq'
+gem 'sinatra', '>= 1.3.0', :require => nil
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.

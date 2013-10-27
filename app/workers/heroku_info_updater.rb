@@ -7,7 +7,6 @@ class HerokuInfoUpdater
   end
 
   def perform(id)
-    sleep 1
     app = HerokuApp.find(id)
     attr = Api::App.new(app.name).attributes
     app.update_attributes!(attr.merge(async_running: false))
