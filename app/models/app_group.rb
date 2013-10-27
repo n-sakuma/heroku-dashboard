@@ -27,4 +27,8 @@ class AppGroup < ActsAsTaggableOn::Tag
   def addon_cost
     apps.map(&:addon_cost).sum
   end
+
+  def self.any_async_running?
+    all.map(&:apps).flatten.any?(&:async_running?)
+  end
 end

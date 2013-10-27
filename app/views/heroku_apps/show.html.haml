@@ -19,7 +19,8 @@
           %dd= labeling_dyno_status(dyno.status)
 
       .pull-right
-        #async-running-status.label.label-warning{:style => 'display: none;'} Async running...
+        - visible_style = @heroku_app.async_running? ? '' : 'display: none;'
+        #async-running-status.label.label-warning{:style => "#{visible_style}"} Async running...
         #async-run-btn.btn.btn-info= link_to 'Update App Info', update_api_heroku_app_path(@heroku_app, format: :json), method: :put, remote: true
 
       - if @heroku_app.addons.present?

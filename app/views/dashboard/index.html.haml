@@ -1,6 +1,7 @@
 .row
   .offset8.pull-right
-    #async-running-status.label.label-warning{:style => 'display: none;'} Async running...
+    - visible_style = AppGroup.any_async_running? ? '' : 'display: none;'
+    #async-running-status.label.label-warning{:style => "#{visible_style}"} Async running...
     #async-run-btn.btn.btn-info= link_to 'Update App', multiple_update_path(format: :json), method: :put, remote: true
 
 .row
