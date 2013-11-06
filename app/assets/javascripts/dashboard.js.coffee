@@ -20,7 +20,7 @@ class @HerokuDashboard
       error: (jqXHR, textStatus, errorThrown) =>
         console.log textStatus
       success: (data, textStatus, jqXHR) =>
-        @parseRequest(chartType, data)
+        @parseRequest(chartType, data, maxValue)
         r = Raphael(chartPosition['positionId'])
         pie = r.piechart(chartPosition['chart_x'], chartPosition['chart_y'], chartPosition['radial'], @data, { legend: @labels, legendpos: chartPosition['title_pos'], href: @descriptions})
         @titlize(chartType, @data, maxValue)
@@ -42,7 +42,7 @@ class @HerokuDashboard
             , 500, "bounce"
             @label[1].attr "font-weight": 400
 
-  @parseRequest = (chartType, responseData) =>
+  @parseRequest = (chartType, responseData, maxValue) =>
     @resetValues()
     $(responseData).each (key, message) =>
       if chartType == 'Dynos'
@@ -53,18 +53,18 @@ class @HerokuDashboard
         @labels.push message.name
         @data.push message.addons_cost
     @total = @data.reduce (a, b) -> a + b
-    @data.push @total
-    @labels.push "Free  (%%.%)"
+    @data.push(maxValue - @total)
+    @labels.push "Free  (%%.%%)"
 
   @resetValues = ->
     @data = []
     @labels = []
     @descriptions = []
     @title = ""
-    @total = null
+    @total = 0
 
   @titlize = (chartType, data, maxValue) ->
-    parcentage = (@total / maxValue * 100).toFixed(1)
+    parcentage = (@total / maxValue * 100).toFixed(2)
     if chartType == 'Dynos'
       @title = "#{chartType}: #{parcentage}% (#{@total}/#{maxValue})"
     else
