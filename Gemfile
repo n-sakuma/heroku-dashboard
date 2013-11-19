@@ -20,6 +20,8 @@ gem 'foreman'
 gem 'acts-as-taggable-on'
 gem 'sidekiq'
 gem 'sinatra', '>= 1.3.0', :require => nil
+gem 'omniauth'
+gem 'omniauth-heroku'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
