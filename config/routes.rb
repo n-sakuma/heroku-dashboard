@@ -1,6 +1,11 @@
 require 'sidekiq/web'
 
 HerokuDashboard::Application.routes.draw do
+
+  get "login" => "sessions#new", as: 'login'
+  get "/auth/:provider/callback" => "sessions#create"
+  match 'signout', to: 'sessions#destroy', as: 'logout', via: [:get, :post]
+
   mount Sidekiq::Web => '/sidekiq'
 
   root 'dashboard#index'

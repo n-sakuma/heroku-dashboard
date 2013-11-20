@@ -1,5 +1,9 @@
 module ApplicationHelper
 
+  def logged_in?
+    session[:heroku_access_token].present?
+  end
+
   def linked_tags(list)
     Array(list).map do |tag|
       link_to tag, group_path(tag)

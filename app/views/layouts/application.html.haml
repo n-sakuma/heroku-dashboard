@@ -34,10 +34,13 @@
             %span.icon-bar
             %span.icon-bar
             %span.icon-bar
-          .brand= link_to 'Dashboard', root_path
+          .brand= link_to_if logged_in?, 'Mentough Dashboard', root_path
           .container.nav-collapse
             %ul.nav
-              %li= link_to "Apps",  heroku_apps_path
+              - if logged_in?
+                %li= link_to "Apps",  heroku_apps_path
+                %li= link_to "sign out",  logout_path
+
     .container
       .row
         .span12
