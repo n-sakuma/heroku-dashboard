@@ -1,7 +1,7 @@
 module ApplicationHelper
 
   def logged_in?
-    session[:heroku_access_token].present?
+    !!current_user
   end
 
   def linked_tags(list)

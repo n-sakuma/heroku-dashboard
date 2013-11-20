@@ -9,6 +9,18 @@ class ApplicationController < ActionController::Base
   private
 
   def require_heroku_login
-    redirect_to(:login, error: 'login failed!') if session[:heroku_access_token].blank?
+    return true if current_user && current_user.access_token_expired_at.future?
+    redirect_to login_path, alert: 'login failed!'
   end
+
+  def current_user
+    @current_user ||= User.find_by(id: session[:user_id])
+  end
+
+  def current_user=(user)
+    @current_user = user
+    session[:user_id] = user.id
+  end
+
+  helper_method :current_user, :current_user=
 end
