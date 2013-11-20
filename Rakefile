@@ -3,4 +3,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-Myheroku::Application.load_tasks
+HerokuDashboard::Application.load_tasks

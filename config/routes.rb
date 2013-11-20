@@ -1,8 +1,37 @@
-Myheroku::Application.routes.draw do
+require 'sidekiq/web'
 
-  root 'dashbord#index'
+HerokuDashboard::Application.routes.draw do
 
-  get "dashbord/index"
+  namespace :admin do
+    root to: 'users#index'
+
+    resources :users, except: :show
+  end
+
+  root to: 'dashboard#index'
+
+  get "login" => "sessions#new", as: 'login'
+  get "/auth/:provider/callback" => "sessions#create"
+  match 'signout', to: 'sessions#destroy', as: 'logout', via: [:get, :post]
+
+  mount Sidekiq::Web => '/sidekiq'
+
+
+  get "dashboard/index"
+  get "dynos/info" => 'app_groups#dynos_status'
+  get "addons/info" => 'app_groups#addons_status'
+  get "group/:tag" => 'app_groups#show', as: :group
+  scope :settings do
+    post "apps/multiple" => 'heroku_apps#multiple_create', as: 'multiple_create'
+    put "apps/multiple" => 'heroku_apps#multiple_update', as: 'multiple_update'
+    resources :apps, controller: 'heroku_apps', as: 'heroku_apps', except: [:create] do
+      member do
+        put :update_api
+      end
+    end
+  end
+
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

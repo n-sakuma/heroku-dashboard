@@ -13,4 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require turbolinks
+//= require bootstrap
+//= require raphael-min
+//= require g.raphael-min
+//= require g.pie-min
 //= require_tree .
