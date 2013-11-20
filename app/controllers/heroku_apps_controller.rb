@@ -21,7 +21,7 @@ class HerokuAppsController < ApplicationController
   end
 
   def multiple_update
-    HerokuApp.all_async!
+    HerokuApp.all_async!(current_user.access_token)
     render json: {}, status: :ok
   end
 
@@ -51,6 +51,7 @@ class HerokuAppsController < ApplicationController
 
   def set_heroku_app
     @heroku_app = HerokuApp.find(params[:id])
+    @heroku_app.auth_token = current_user.access_token
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

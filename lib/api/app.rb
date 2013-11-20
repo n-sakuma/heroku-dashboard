@@ -1,13 +1,14 @@
 module Api
-  class App < Base
-    attr_reader :name
+  class App
+    attr_reader :name, :client
 
     IMPORT_APP_ATTR = %W(web_url released_at)
     IMPORT_ADDON_ATTR = %W(name description price plan_description group_description sso_url)
     IMPORT_PS_ATTR = {'process' => 'name', 'state' => 'status', 'release' => 'release_number', 'size' => 'size'}
 
-    def initialize(name = "")
+    def initialize(name = "", token = nil)
       @name = name
+      @client = Heroku::API.new(api_key: token)
     end
 
     def attributes

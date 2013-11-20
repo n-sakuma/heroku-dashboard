@@ -6,9 +6,9 @@ class HerokuInfoUpdater
     Sidekiq.logger.warn "Failed #{msg['class']} with #{msg['args']}: #{msg['error_message']}"
   end
 
-  def perform(id)
+  def perform(id, token)
     app = HerokuApp.find(id)
-    attr = Api::App.new(app.name).attributes
+    attr = Api::App.new(app.name, token).attributes
     app.update_attributes!(attr.merge(async_running: false))
   rescue => e
     Sidekiq.logger.warn "Faild: #{e.message}"

@@ -1,9 +1,21 @@
 require 'sidekiq/web'
 
 HerokuDashboard::Application.routes.draw do
+
+  namespace :admin do
+    root to: 'users#index'
+
+    resources :users, except: :show
+  end
+
+  root to: 'dashboard#index'
+
+  get "login" => "sessions#new", as: 'login'
+  get "/auth/:provider/callback" => "sessions#create"
+  match 'signout', to: 'sessions#destroy', as: 'logout', via: [:get, :post]
+
   mount Sidekiq::Web => '/sidekiq'
 
-  root 'dashboard#index'
 
   get "dashboard/index"
   get "dynos/info" => 'app_groups#dynos_status'

@@ -1,7 +1,7 @@
 class HerokuApp < ActiveRecord::Base
   acts_as_taggable
 
-  attr_accessor :api_updatable
+  attr_accessor :api_updatable, :auth_token
 
   has_many :addons, dependent: :destroy
   accepts_nested_attributes_for :addons, allow_destroy: true
@@ -94,15 +94,16 @@ class HerokuApp < ActiveRecord::Base
     addons.inject(0){|sum, addon| sum += addon.price_doller }
   end
 
-  def self.all_async!
+  def self.all_async!(token)
     find_each do |app|
+      app.auth_token = token
       app.async_get_api!
     end
   end
 
   def async_get_api!
     update_attributes!(async_running: true)
-    HerokuInfoUpdater.perform_async(id)
+    HerokuInfoUpdater.perform_async(id, auth_token)
   rescue => e
     logger.warn "Failed: #{e.message}"
   end
