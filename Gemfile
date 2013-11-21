@@ -23,6 +23,7 @@ gem 'sinatra', '>= 1.3.0', :require => nil
 gem 'omniauth'
 gem 'omniauth-heroku'
 gem 'therubyracer'
+gem 'puma'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
@@ -30,8 +31,6 @@ group :doc do
 end
 
 group :development, :test do
-  gem 'puma'
-
   gem 'debugger'
   gem 'pry-rails'
   gem 'pry-debugger'
