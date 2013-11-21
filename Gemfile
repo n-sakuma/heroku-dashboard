@@ -22,7 +22,7 @@ gem 'sidekiq'
 gem 'sinatra', '>= 1.3.0', :require => nil
 gem 'omniauth'
 gem 'omniauth-heroku'
-gem 'bcrypt-ruby', '~> 3.0.0'
+gem 'therubyracer'
 
 group :doc do
   # bundle exec rake doc:rails generates the API under doc/api.
