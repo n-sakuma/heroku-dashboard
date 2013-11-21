@@ -21,8 +21,8 @@ module Api
       parse_body(client.get_app(@name).body, IMPORT_APP_ATTR) rescue {}
     end
 
-    def self.app_names
-      self.new.client.get_apps.body.map{|a| a['name']} rescue []
+    def self.app_names(token)
+      self.new('', token).client.get_apps.body.map{|a| a['name']} rescue []
     end
 
     def addons

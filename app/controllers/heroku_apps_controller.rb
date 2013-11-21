@@ -9,7 +9,7 @@ class HerokuAppsController < ApplicationController
   end
 
   def new
-    @app_names = Api::App.app_names - HerokuApp.pluck(:name)
+    @app_names = Api::App.app_names(current_user.access_token) - HerokuApp.pluck(:name)
   end
 
   def edit
