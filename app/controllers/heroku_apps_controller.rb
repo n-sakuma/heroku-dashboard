@@ -16,7 +16,7 @@ class HerokuAppsController < ApplicationController
   end
 
   def multiple_create
-    result = HerokuApp.multiple_create(multiple_app_params)
+    result = HerokuApp.multiple_create(multiple_app_params, current_user.access_token)
     redirect_to heroku_apps_path, notice: result[:success], alert: result[:failed]
   end
 
