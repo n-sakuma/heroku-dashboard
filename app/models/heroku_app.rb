@@ -14,13 +14,15 @@ class HerokuApp < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true  # TODO: DBでユニーク制約を入れる
   validate :validate_exist_on_heroku, on: :create
 
-  def self.multiple_create(params)
+  def self.multiple_create(params, token)
     result = {success: [], failed: []}
     params.each_pair do |k, v|
       begin
-        HerokuApp.create!(name: v[:name], tag_list: v[:tags])
+        app = HerokuApp.new(name: v[:name], tag_list: v[:tags], auth_token: token)
+        app.save!
         result[:success] << "'#{k}' : successfully created."
-      rescue
+      rescue => e
+        logger.warn "Faild: #{e.message}"
         result[:failed] << "'#{k}' : failed."
       end
     end
@@ -119,10 +121,10 @@ class HerokuApp < ActiveRecord::Base
   end
 
   def validate_exist_on_heroku
-    errors.add :base, "Don't exit on Heroku'" unless Api::App.new(name).exist?
+    errors.add :base, "Don't exit on Heroku'" unless Api::App.new(name, self.auth_token).exist?
   end
 
   def update_api_info
-    self.attributes = Api::App.new(name).attributes
+    self.attributes = Api::App.new(name, self.auth_token).attributes
   end
 end

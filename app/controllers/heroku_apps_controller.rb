@@ -9,14 +9,14 @@ class HerokuAppsController < ApplicationController
   end
 
   def new
-    @app_names = Api::App.app_names - HerokuApp.pluck(:name)
+    @app_names = Api::App.app_names(current_user.access_token) - HerokuApp.pluck(:name)
   end
 
   def edit
   end
 
   def multiple_create
-    result = HerokuApp.multiple_create(multiple_app_params)
+    result = HerokuApp.multiple_create(multiple_app_params, current_user.access_token)
     redirect_to heroku_apps_path, notice: result[:success], alert: result[:failed]
   end
 
